@@ -27,5 +27,13 @@ defmodule Accent.TransformerTest do
                Accent.Case.Snake
              ) == %{"hello_world" => ["item"]}
     end
+
+    test "does not transform structs" do
+      assert %URI{host: "example.com"} =
+               Accent.Case.convert(
+                 URI.parse("http://example.com"),
+                 Accent.Case.Pascal
+               )
+    end
   end
 end
