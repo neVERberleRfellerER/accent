@@ -27,9 +27,7 @@ defmodule Accent.Plug.RequestTest do
     test "converts keys using provided case" do
       conn =
         conn(:post, "/", %{"hello_world" => "value"})
-        |> Accent.Plug.Request.call(
-          Accent.Plug.Request.init(case: Accent.Case.Camel)
-        )
+        |> Accent.Plug.Request.call(Accent.Plug.Request.init(case: Accent.Case.Camel))
 
       assert conn.params == %{"helloWorld" => "value"}
     end
@@ -42,6 +40,7 @@ defmodule Accent.Plug.RequestTest do
         |> Accent.Plug.Request.call(@opts)
 
       assert conn.params == %{"hello_world" => "value"}
+      assert conn.body_params == %{"hello_world" => "value"}
     end
 
     test "properly handles GET requests" do
@@ -52,6 +51,7 @@ defmodule Accent.Plug.RequestTest do
         |> Accent.Plug.Request.call(@opts)
 
       assert conn.params == %{"hello_world" => "value"}
+      assert conn.query_params == %{"hello_world" => "value"}
     end
   end
 end

@@ -39,8 +39,16 @@ defmodule Accent.Plug.Request do
   @doc false
   def call(conn, opts) do
     case conn.params do
-      %Plug.Conn.Unfetched{} -> conn
-      _ -> %{conn | params: Accent.Case.convert(conn.params, opts[:case])}
+      %Plug.Conn.Unfetched{} ->
+        conn
+
+      _ ->
+        %{
+          conn
+          | params: Accent.Case.convert(conn.params, opts[:case]),
+            body_params: Accent.Case.convert(conn.body_params, opts[:case]),
+            query_params: Accent.Case.convert(conn.query_params, opts[:case])
+        }
     end
   end
 end
